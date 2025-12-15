@@ -128,7 +128,7 @@ class Config extends CommonDBTM
             $dbu   = new DbUtils();
             $query = "DELETE FROM `" . $this->getTable() . "`
                    WHERE `name` = '" . $this->fields["name"] . "'
-                     AND `id` != '" . $this->fields['id'] ?? '' . "' "
+                     AND `id` != '" . (($this->fields['id'] ?? '')) . "' "
                      . $dbu->getEntitiesRestrictRequest(
                          'AND',
                          $this->getTable(),
@@ -630,9 +630,9 @@ class Config extends CommonDBTM
             $supplierurl = (isset($config->fields["supplier_url"])) ? $config->fields["supplier_url"] : false;
 
             if ($suppliername == Config::LENOVO) {
-                $url = PreImport::selectSupplier($suppliername, $supplierurl, $item->fields['serial'] ?? '', $otherserial, $supplierkey, null, true);
+                $url = PreImport::selectSupplier($suppliername, $supplierurl, (($item->fields['serial'] ?? '')), $otherserial, $supplierkey, null, true);
             } else {
-                $url = PreImport::selectSupplier($suppliername, $supplierurl, $item->fields['serial'] ?? '', $otherserial, $supplierkey);
+                $url = PreImport::selectSupplier($suppliername, $supplierurl, (($item->fields['serial'] ?? '')), $otherserial, $supplierkey);
             }
             echo "<table class='tab_cadre_fixe'>";
             echo "<tr>";
@@ -679,15 +679,15 @@ class Config extends CommonDBTM
                 $url = PreImport::selectSupplier(
                     $suppliername,
                     $supplierUrl,
-                    $item->fields['serial'] ?? '',
-                    $item->fields['otherserial'] ?? '',
+                    (($item->fields['serial'] ?? '')),
+                    (($item->fields['otherserial'] ?? '')),
                     $supplierkey
                 );
 
                 $post = PreImport::getSupplierPost(
                     $suppliername,
-                    $item->fields['serial'] ?? '',
-                    $item->fields['otherserial'] ?? ''
+                    (($item->fields['serial'] ?? '')),
+                    (($item->fields['otherserial'] ?? ''))
                 );
 
                 $data    = [];
@@ -702,14 +702,14 @@ class Config extends CommonDBTM
 
                 $supplierclass                  = "GlpiPlugin\Manufacturersimports\\".$suppliername;
                 $token                          = $supplierclass::getToken($config);
-                $warranty_url                   = $supplierclass::getWarrantyUrl($config, $item->fields['serial'] ?? '');
+                $warranty_url                   = $supplierclass::getWarrantyUrl($config, (($item->fields['serial'] ?? '')));
                 $options['token']               = $token;
-                $options['line']['entities_id'] = $item->fields['entities_id'] ?? '';
+                $options['line']['entities_id'] = (($item->fields['entities_id'] ?? ''));
                 if (isset($warranty_url['url'])) {
                     $options['url'] = $warranty_url['url'];
                 }
                 if (isset($item->fields['serial'])) {
-                    $options['sn'] = $item->fields['serial'] ?? '';
+                    $options['sn'] = (($item->fields['serial'] ?? ''));
                 }
 
                 $otherserial = "";
@@ -750,7 +750,7 @@ class Config extends CommonDBTM
             $log    = new Log();
 
             $suppliername = Config::checkManufacturerName($item->getType(), $item->getID());
-            if (!empty($suppliername) && !empty($item->fields['serial'] ?? '')) {
+            if (!empty($suppliername) && !empty((($item->fields['serial'] ?? '')))) {
                 $NotAlreadyImported = $log->checkIfAlreadyImported($item->getType(), $item->getID());
                 if (!$NotAlreadyImported) {
                     echo "<div class='alert alert-important alert-warning d-flex'>";

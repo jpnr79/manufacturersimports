@@ -229,6 +229,6 @@ class HP extends Manufacturer
      */
     public static function getWarrantyUrl($config, $compSerial)
     {
-        return ["url" => $config->fields['warranty_url'] ?? ''];
+        return ["url" => (($config->fields['warranty_url'] ?? ''))];
     }
 }
