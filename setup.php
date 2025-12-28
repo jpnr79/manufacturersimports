@@ -80,9 +80,9 @@ function plugin_init_manufacturersimports()
     if (isset($_SESSION['glpiactiveprofile']['interface'])
         && $_SESSION['glpiactiveprofile']['interface'] == 'central') {
         // Add specific files to add to the header : javascript or css
-        $PLUGIN_HOOKS[Hooks::ADD_CSS]['manufacturersimports'] = [
-           "manufacturersimports.css",
-        ];
+          $PLUGIN_HOOKS['add_css']['manufacturersimports'] = [
+              "manufacturersimports.css",
+          ];
     }
 }
 
